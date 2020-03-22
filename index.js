@@ -8,14 +8,18 @@ const add = (function getAdd() {
 })();
 
 const React = (function() {
-  let _val;
+  let hooks = [];
+  let idx = 0;
   function useState(initalVal) {
-    const state = _val || initalVal;
-    const setState = newVal => (_val = newVal);
+    const _idx = idx;
+    const state = hooks[idx] || initalVal;
+    const setState = newVal => (hooks[_idx] = newVal);
+    idx++;
     return [state, setState];
   }
 
   function render(Component) {
+    idx = 0;
     const C = Component();
     C.render();
     return C;
